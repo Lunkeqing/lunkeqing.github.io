@@ -24,12 +24,23 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true  # 这行是关键，保证拉取子模块主题！
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: '0.165.0'  # 和你本地版本保持一致
+
+      # 👇 下面这一段是新增的“缓存”功能，能让下次构建更快
+      - name: Cache Hugo resources
+        uses: actions/cache@v4
+        with:
+          path: |
+            resources
+            .hugo_build.lock
+          key: ${{ runner.os }}-hugo-${{ hashFiles('**/hugo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-hugo-
 
       - name: Build
         run: hugo --minify
