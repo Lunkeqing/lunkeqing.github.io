@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lunkeqing.github.io/sitemap.xml
